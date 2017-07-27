@@ -1,3 +1,4 @@
+from functools import wraps
 from inspect import getmembers, signature
 
 __version__ = '0.2'
@@ -29,6 +30,8 @@ def autovalue(cls):
     def tostring(self):
         attr_format = ['{}={}'.format(name, str(getattr(self, name))) for name in attributes]
         return '{}({})'.format(cls.__name__, ', '.join(attr_format))
+
+    wraps(cls.__init__)(init)
 
     name = 'AutoValue_{}'.format(cls.__name__)
     auto_value = type(name, (cls,),

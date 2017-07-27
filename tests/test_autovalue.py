@@ -1,3 +1,5 @@
+from inspect import signature
+
 import pytest
 
 from autovalue import autovalue
@@ -34,3 +36,14 @@ def test_equal():
 
     assert Foo('bar') == Foo('bar')
     assert Foo('bar') != Foo('bar2')
+
+def test_signture():
+    @autovalue
+    class Foo:
+        def __init__(self, bar: str):
+            self.bar = bar
+
+    parameters = list(signature(Foo.__init__).parameters.values())
+    assert len(parameters) == 2
+    assert parameters[1].name == 'bar'
+    assert parameters[1].annotation == str
