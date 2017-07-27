@@ -37,7 +37,8 @@ def test_equal():
     assert Foo('bar') == Foo('bar')
     assert Foo('bar') != Foo('bar2')
 
-def test_signture():
+
+def test_preserve_signature():
     @autovalue
     class Foo:
         def __init__(self, bar: str):
@@ -47,3 +48,12 @@ def test_signture():
     assert len(parameters) == 2
     assert parameters[1].name == 'bar'
     assert parameters[1].annotation == str
+
+
+def test_custom_tostring():
+    @autovalue
+    class Foo:
+        def __str__(self):
+            return '42'
+
+    assert str(Foo()) == '42'

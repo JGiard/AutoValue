@@ -33,13 +33,18 @@ def autovalue(cls):
 
     wraps(cls.__init__)(init)
 
+    methods = {'__init__': init,
+               '__setattr__': setter,
+               '__initialized': False}
+
+    if cls.__str__ == object.__str__:
+        methods['__str__'] = tostring
+    if cls.__repr__ == object.__repr__:
+        methods['__repr__'] = tostring
+    if cls.__eq__ == object.__eq__:
+        methods['__eq__'] = eq
+
     name = 'AutoValue_{}'.format(cls.__name__)
-    auto_value = type(name, (cls,),
-                      {'__init__': init,
-                       '__setattr__': setter,
-                       '__eq__': eq,
-                       '__str__': tostring,
-                       '__repr__': tostring,
-                       '__initialized': False})
+    auto_value = type(name, (cls,), methods)
 
     return auto_value
