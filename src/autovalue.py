@@ -1,6 +1,9 @@
 from inspect import getmembers, signature
 
-def AutoValue(cls):
+__version__ = '0.1'
+
+
+def autovalue(cls):
     attributes = []
     for member in getmembers(cls):
         if member[0] == '__init__':
@@ -28,7 +31,12 @@ def AutoValue(cls):
         return '{}({})'.format(cls.__name__, ', '.join(attr_format))
 
     name = 'AutoValue_{}'.format(cls.__name__)
-    auto_value = type(name, (cls,), {'__init__': init, '__setattr__': setter, '__eq__': eq, '__str__': tostring, '__initialized': False})
+    auto_value = type(name, (cls,),
+                      {'__init__': init,
+                       '__setattr__': setter,
+                       '__eq__': eq,
+                       '__str__': tostring,
+                       '__repr__': tostring,
+                       '__initialized': False})
 
     return auto_value
-
