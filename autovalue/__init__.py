@@ -22,6 +22,8 @@ def autovalue(cls):
         cls.__setattr__(self, key, value)
 
     def eq(self, other):
+        if type(self) != type(other):
+            return False
         for attr in attributes:
             if getattr(self, attr) != getattr(other, attr):
                 return False

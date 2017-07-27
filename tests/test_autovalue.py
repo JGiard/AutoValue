@@ -57,3 +57,26 @@ def test_custom_tostring():
             return '42'
 
     assert str(Foo()) == '42'
+
+
+def test_compare_none():
+    @autovalue
+    class Foo:
+        def __init__(self, bar: str):
+            self.bar = bar
+
+    assert Foo('foo') != None
+
+
+def test_compare_different_class():
+    @autovalue
+    class Foo:
+        def __init__(self, bar: str):
+            self.bar = bar
+
+    @autovalue
+    class Quz:
+        def __init__(self, bar: str):
+            self.bar = bar
+
+    assert Foo('foo') != Quz('foo')
