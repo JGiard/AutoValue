@@ -53,10 +53,13 @@ def test_preserve_signature():
 def test_custom_tostring():
     @autovalue
     class Foo:
+        def __init__(self, bar: str):
+            self.bar = bar
+
         def __str__(self):
             return '42'
 
-    assert str(Foo()) == '42'
+    assert str(Foo('bar')) == '42'
 
 
 def test_compare_none():
