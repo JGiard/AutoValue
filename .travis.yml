@@ -4,4 +4,4 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-script: pytest
+script: python3 -m pytest

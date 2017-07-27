@@ -1,6 +1,6 @@
 import pytest
 
-from src.autovalue import autovalue
+from autovalue import autovalue
 
 
 def test_cannot_set_attribute():
