@@ -12,14 +12,16 @@ def autovalue(cls):
                 if name != 'self':
                     attributes.append(name)
 
+    old_init = cls.__init__
+
     def init(self, *args, **kwargs):
-        cls.__init__(self, *args, **kwargs)
+        old_init(self, *args, **kwargs)
         self.__initialized = True
 
     def setter(self, key, value):
         if self.__initialized and key in attributes:
             raise ValueError('cannot assign member {} to class {}'.format(key, cls.__name__))
-        cls.__setattr__(self, key, value)
+        super(cls, self).__setattr__(key, value)
 
     def eq(self, other):
         if type(self) != type(other):
@@ -35,18 +37,14 @@ def autovalue(cls):
 
     wraps(cls.__init__)(init)
 
-    methods = {'__init__': init,
-               '__setattr__': setter,
-               '__initialized': False}
-
+    setattr(cls, '__init__', init)
+    setattr(cls, '__initialized', False)
     if cls.__str__ == object.__str__:
-        methods['__str__'] = tostring
+        setattr(cls, '__str__', tostring)
     if cls.__repr__ == object.__repr__:
-        methods['__repr__'] = tostring
+        setattr(cls, '__repr__', tostring)
     if cls.__eq__ == object.__eq__:
-        methods['__eq__'] = eq
+        setattr(cls, '__eq__', eq)
+    setattr(cls, '__setattr__', setter)
 
-    name = 'AutoValue_{}'.format(cls.__name__)
-    auto_value = type(name, (cls,), methods)
-
-    return auto_value
+    return cls
