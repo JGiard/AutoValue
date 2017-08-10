@@ -1,7 +1,7 @@
 from functools import wraps
 from inspect import getmembers, signature
 
-__version__ = '0.4'
+__version__ = '0.5'
 
 
 def autovalue(cls):
