@@ -83,3 +83,12 @@ def test_compare_different_class():
             self.bar = bar
 
     assert Foo('foo') != Quz('foo')
+
+
+def test_compare_objects_in_set():
+    @autovalue
+    class Foo:
+        def __init__(self, bar: str):
+            self.bar = bar
+
+    assert {Foo('bar')} == {Foo('bar')}

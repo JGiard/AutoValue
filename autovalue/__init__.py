@@ -31,6 +31,10 @@ def autovalue(cls):
                 return False
         return True
 
+    def cls_hash(self):
+        values = [getattr(self, attr) for attr in attributes]
+        return hash(tuple(values))
+
     def tostring(self):
         attr_format = ['{}={}'.format(name, str(getattr(self, name))) for name in attributes]
         return '{}({})'.format(cls.__name__, ', '.join(attr_format))
@@ -45,6 +49,7 @@ def autovalue(cls):
         setattr(cls, '__repr__', tostring)
     if cls.__eq__ == object.__eq__:
         setattr(cls, '__eq__', eq)
+        setattr(cls, '__hash__', cls_hash)
     setattr(cls, '__setattr__', setter)
 
     return cls
