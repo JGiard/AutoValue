@@ -1,4 +1,5 @@
 from inspect import signature
+from typing import List, Dict
 
 import pytest
 
@@ -92,3 +93,13 @@ def test_compare_objects_in_set():
             self.bar = bar
 
     assert {Foo('bar')} == {Foo('bar')}
+
+
+def test_hash_of_lists():
+    @autovalue
+    class Foo:
+        def __init__(self, bar: List[str], quz: Dict[int, int]):
+            self.bar = bar
+            self.quz = quz
+
+    assert {Foo(['foo', 'bar'], {1: 2})} == {Foo(['foo', 'bar'], {1: 2})}

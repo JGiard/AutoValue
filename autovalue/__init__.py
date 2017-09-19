@@ -1,3 +1,4 @@
+from collections import Hashable
 from functools import wraps
 from inspect import getmembers, signature
 
@@ -32,7 +33,18 @@ def autovalue(cls):
         return True
 
     def cls_hash(self):
-        values = [getattr(self, attr) for attr in attributes]
+        values = []
+        for attr in attributes:
+            value = getattr(self, attr)
+            if not isinstance(value, Hashable):
+                if isinstance(value, list):
+                    values.append(tuple(value))
+                elif isinstance(value, dict):
+                    values.append(tuple(value.items()))
+                else:
+                    raise TypeError('unhashable type: \'{}\''.format(type(value)))
+            else:
+                values.append(value)
         return hash(tuple(values))
 
     def tostring(self):
