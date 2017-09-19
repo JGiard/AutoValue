@@ -2,7 +2,7 @@ from collections import Hashable
 from functools import wraps
 from inspect import getmembers, signature
 
-__version__ = '0.6'
+__version__ = '0.6.1'
 
 
 def autovalue(cls):
