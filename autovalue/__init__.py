@@ -51,10 +51,18 @@ def autovalue(cls):
         attr_format = ['{}={}'.format(name, str(getattr(self, name))) for name in attributes]
         return '{}({})'.format(cls.__name__, ', '.join(attr_format))
 
+
+    def update(self, **kwargs) -> cls:
+        cls_args = {attr: getattr(self, attr) for attr in attributes}
+        for k, v in kwargs.items():
+            cls_args[k] = v
+        return cls(**cls_args)
+
     wraps(cls.__init__)(init)
 
     setattr(cls, '__init__', init)
     setattr(cls, '__initialized', False)
+    setattr(cls, 'update', update)
     if cls.__str__ == object.__str__:
         setattr(cls, '__str__', tostring)
     if cls.__repr__ == object.__repr__:
