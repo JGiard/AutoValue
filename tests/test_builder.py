@@ -28,3 +28,20 @@ def test_update_should_not_modify_object():
 
     assert foo2.a == 4
     assert foo1.a == 1
+
+
+def test_only_override_update_if_not_present():
+    @autovalue
+    class Foo:
+        def __init__(self, a: int, b: int, c: int):
+            self.a = a
+            self.b = b
+            self.c = c
+
+        def update(self):
+            return 3
+
+    foo1 = Foo(1, 2, 3)
+    foo2 = foo1.update()
+
+    assert foo2 == 3
