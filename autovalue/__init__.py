@@ -1,4 +1,4 @@
-from collections import Hashable
+from collections.abc import Hashable
 from functools import wraps
 from inspect import getmembers, signature
 
