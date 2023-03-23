@@ -9,7 +9,7 @@ with open('autovalue/__init__.py', 'r') as fd:
 setup(name='AutoValue',
       version=version,
       author='Jean Giard',
-      license='LGPL',
+      license='LGPL-2.1-or-later',
       packages=['autovalue'],
       setup_requires=['pytest-runner'],
       tests_require=['pytest'],
